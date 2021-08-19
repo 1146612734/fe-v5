@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './App.less';
 import 'antd/dist/antd.less';
 import './global.variable.less';
 import { Provider } from 'react-redux';
