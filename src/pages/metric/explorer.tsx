@@ -11,6 +11,7 @@ import { SetTmpChartData } from '@/services/metric';
 import '@d3-charts/ts-graph/dist/index.css';
 import './index.less';
 import { useTranslation } from 'react-i18next';
+import PageLayout from '@/components/pageLayout';
 import type {
   ChartComponentProps,
   Param,
@@ -126,115 +127,120 @@ export default function Explorer({ resourceGroupId, isIdent }: IExplorerProps) {
   );
 
   return (
-    <div className='explore'>
-      <Row>
-        <Col className='left' span={8}>
-          {!isIdent ? (
-            <div className={'page-title'}>
-              <LineChartOutlined />
-              {t('即时看图')}
-            </div>
-          ) : null}
-          {isIdent ? (
-            <ResourceTable onSelect={handleSelectIdent}></ResourceTable>
-          ) : null}
-          <div className='panel'>
-            <div className='title'>{t('监控指标')}</div>
-            <MetricTable
-              idents={idents}
-              onChange={handleMetricChange}
-              ref={metricRef}
-            />
-          </div>
-          {!isIdent ? (
+    <PageLayout title={t('即时看图')} icon={<LineChartOutlined />}>
+      <div className='explore'>
+        <Row>
+          <Col className='left' span={8}>
+            {/* {!isIdent ? (
+              <div className={'page-title'}>
+                <LineChartOutlined />
+                {t('即时看图')}
+              </div>
+            ) : null} */}
+            {isIdent ? (
+              <ResourceTable onSelect={handleSelectIdent}></ResourceTable>
+            ) : null}
             <div className='panel'>
-              <div className='title'>{t('筛选标签')}</div>
-
-              <MatricTag
-                metrics={metrics.map((metric) => metric.name)}
-                onChange={handleTagChange}
-                ref={tagRef}
+              <div className='title'>{t('监控指标')}</div>
+              <MetricTable
+                idents={idents}
+                onChange={handleMetricChange}
+                ref={metricRef}
               />
             </div>
-          ) : null}
-          <div className='panel'>
-            <div className='title'>{t('配置')}</div>
-            <div>
-              {t('每张图最多展示')}
-              <Select
-                className='echart-line-num'
-                defaultValue='50'
-                size='small'
-                onChange={handleLimitChange}
-              >
-                <Option value={50}>50</Option>
-                <Option value={100}>100</Option>
-                <Option value={200}>200</Option>
-                <Option value={500}>500</Option>
-              </Select>
-              {t('条线')}
-            </div>
-          </div>
+            {!isIdent ? (
+              <div className='panel'>
+                <div className='title'>{t('筛选标签')}</div>
 
-          <Button
-            type='primary'
-            onClick={handleReset}
-            style={{
-              marginTop: '10px',
-            }}
-          >
-            {t('重置')}
-          </Button>
-
-          <Button
-            type='primary'
-            disabled={metrics.length === 0}
-            onClick={handleShare}
-            style={{
-              marginTop: '10px',
-            }}
-          >
-            {t('分享图表')}
-          </Button>
-        </Col>
-        <Col className='right' span={16}>
-          <div>
-            <div className='header'>
-              <div className='header-left'>
-                <DateRangePicker onChange={handleDateChange} />
-                <ResfeshIcon onClick={handleRefresh} className='reload-icon' />
+                <MatricTag
+                  metrics={metrics.map((metric) => metric.name)}
+                  onChange={handleTagChange}
+                  ref={tagRef}
+                />
               </div>
-              <Radio.Group value={numPerLine} onChange={handleChange}>
-                <Radio.Button value={4}>XS</Radio.Button>
-                <Radio.Button value={3}>S</Radio.Button>
-                <Radio.Button value={2}>M</Radio.Button>
-                <Radio.Button value={1}>L</Radio.Button>
-              </Radio.Group>
+            ) : null}
+            <div className='panel'>
+              <div className='title'>{t('配置')}</div>
+              <div>
+                {t('每张图最多展示')}
+                <Select
+                  className='echart-line-num'
+                  defaultValue='50'
+                  size='small'
+                  onChange={handleLimitChange}
+                >
+                  <Option value={50}>50</Option>
+                  <Option value={100}>100</Option>
+                  <Option value={200}>200</Option>
+                  <Option value={500}>500</Option>
+                </Select>
+                {t('条线')}
+              </div>
             </div>
-            <div className='chart-list'>
-              <Row gutter={15}>
-                {metrics.length > 0
-                  ? metrics.map((metric, i) => {
-                      return (
-                        <Col key={metric.name} span={24 / numPerLine}>
-                          <D3Chart
-                            cached
-                            options={{
-                              ...chartOption,
-                              idents: idents.length > 0 ? idents : undefined,
-                              metric: metric.name,
-                              description: metric.description,
-                            }}
-                          />
-                        </Col>
-                      );
-                    })
-                  : placeholder()}
-              </Row>
+
+            <Button
+              type='primary'
+              onClick={handleReset}
+              style={{
+                marginTop: '10px',
+              }}
+            >
+              {t('重置')}
+            </Button>
+
+            <Button
+              type='primary'
+              disabled={metrics.length === 0}
+              onClick={handleShare}
+              style={{
+                marginTop: '10px',
+              }}
+            >
+              {t('分享图表')}
+            </Button>
+          </Col>
+          <Col className='right' span={16}>
+            <div>
+              <div className='header'>
+                <div className='header-left'>
+                  <DateRangePicker onChange={handleDateChange} />
+                  <ResfeshIcon
+                    onClick={handleRefresh}
+                    className='reload-icon'
+                  />
+                </div>
+                <Radio.Group value={numPerLine} onChange={handleChange}>
+                  <Radio.Button value={4}>XS</Radio.Button>
+                  <Radio.Button value={3}>S</Radio.Button>
+                  <Radio.Button value={2}>M</Radio.Button>
+                  <Radio.Button value={1}>L</Radio.Button>
+                </Radio.Group>
+              </div>
+              <div className='chart-list'>
+                <Row gutter={15}>
+                  {metrics.length > 0
+                    ? metrics.map((metric, i) => {
+                        return (
+                          <Col key={metric.name} span={24 / numPerLine}>
+                            <D3Chart
+                              cached
+                              options={{
+                                ...chartOption,
+                                idents: idents.length > 0 ? idents : undefined,
+                                metric: metric.name,
+                                description: metric.description,
+                              }}
+                            />
+                          </Col>
+                        );
+                      })
+                    : placeholder()}
+                </Row>
+              </div>
             </div>
-          </div>
-        </Col>
-      </Row>
-    </div>
+          </Col>
+        </Row>
+      </div>
+    </PageLayout>
   );
 }

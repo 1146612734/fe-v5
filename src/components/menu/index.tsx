@@ -111,15 +111,15 @@ const SideMenu: FC = () => {
         <Menu.Item key='/event' icon={<AlertOutlined />}>
           {t('告警事件')}
         </Menu.Item>
-        <Menu.Item className='holder'></Menu.Item>
-        {/* <Menu.Item key='/manage' icon={<UserOutlined />}>
-         用户管理
-        </Menu.Item> */}
-
         <SubMenu icon={<UserOutlined />} title={t('用户管理')}>
           <Menu.Item key='/manage/user'>{t('用户')}</Menu.Item>
           <Menu.Item key='/manage/group'>{t('团队')}</Menu.Item>
         </SubMenu>
+        {/* <Menu.Item className='holder'></Menu.Item> */}
+        {/* <Menu.Item key='/manage' icon={<UserOutlined />}>
+         用户管理
+        </Menu.Item> */}
+
         {/* <Menu.Item key='/account/profile/info'>
          <span className='avator'>
            <i></i>
@@ -128,7 +128,7 @@ const SideMenu: FC = () => {
            )}
          </span>
         </Menu.Item> */}
-        <SubMenu
+        {/* <SubMenu
           title={
             <span className='avator'>
               <img src={profile.portrait} alt='' />
@@ -143,7 +143,7 @@ const SideMenu: FC = () => {
             {i18n.language == 'en' ? 'switch to Chinese' : '切换为英文'}
           </Menu.Item>
           <Menu.Item key='logout'>{t('退出')}</Menu.Item>
-        </SubMenu>
+        </SubMenu> */}
       </Menu>
     </div>
   );

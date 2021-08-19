@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RollbackOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { RootState, accountStoreState } from '@/store/accountInterface';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import { Logout } from '@/services/login';
 interface IPageLayoutProps {
@@ -25,7 +25,7 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
   customArea,
   showBack,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const history = useHistory();
   let { profile } = useSelector<RootState, accountStoreState>(
     (state) => state.account,
@@ -73,6 +73,16 @@ const PageLayout: React.FC<IPageLayoutProps> = ({
             </div>
             {/* <div className={'page-header-right-area'}>{rightArea}</div> */}
             <div className={'page-header-right-area'}>
+              <span
+                className='language'
+                onClick={() => {
+                  let language = i18n.language == 'en' ? 'zh' : 'en';
+                  i18n.changeLanguage(language);
+                  localStorage.setItem('language', language);
+                }}
+              >
+                {i18n.language == 'en' ? 'En' : 'Zh'}
+              </span>
               <Dropdown overlay={menu} trigger={['click']}>
                 <span className='avator'>
                   <img src={profile.portrait} alt='' />

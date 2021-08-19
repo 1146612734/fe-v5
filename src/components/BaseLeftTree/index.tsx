@@ -236,7 +236,7 @@ const LeftTree: React.FC<ILeftTreeProps> = ({
 
   return (
     <div className={'left-tree-area'}>
-      <div className={'left-tree-area-item page-title'}>{pageTitle}</div>
+      {/* <div className={'left-tree-area-item page-title'}>{pageTitle}</div> */}
       <div className={'left-tree-area-item'}>
         <div className={'left-tree-area-item-title'}>
           {t('收藏的')}
